@@ -6,10 +6,16 @@ import java.util.Scanner;
 import no_mvc.Studente;
 
 public class StudenteView {
+	private Scanner input;
+	
+	public StudenteView(Scanner input) {
+		this.input = input;
+	}
+	
+	
 	
 	public void insert(Studente model) {
 
-		Scanner input = new Scanner(System.in);//questa finisce nella view
 		
 		System.out.println("Digita matricola:");//anche questa finisce nella view
 		String matricola = input.nextLine();//anche questa finisce nella view
@@ -23,12 +29,12 @@ public class StudenteView {
 		
 		model.setCognome(cognome);
 		model.setMatricola(matricola);
-		model.setNome(cognome);
+		model.setNome(nome);
 		
 		
 		
 		
-		input.close();//anche questa finisce nella view
+		
 	}
 	
 	public void print(Studente model) {
@@ -49,19 +55,16 @@ public class StudenteView {
 	
 	
 	public void findByMatricola(Studente model) {
-		Scanner input = new Scanner(System.in);//questa finisce nella view
 		String matricola = input.nextLine();//questa finisce nella view
 		model.setMatricola(matricola);
 		
-		input.close();//questa finisce nella view
+		
 		
 	}
 	
 	public String findByMatricola2() {
 		Scanner input = new Scanner(System.in);//questa finisce nella view
 		String matricola = input.nextLine();//questa finisce nella view
-		
-		input.close();//questa finisce nella view
 		
 		return matricola;
 		

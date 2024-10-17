@@ -6,20 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import mvc.StudenteCRUD;
+import mvc.exception.NotFoundError;
 import mvc.view.StudenteView;
 import no_mvc.Studente;
 
 public class StudenteController {
 	
-	private List<Studente> dati = new ArrayList<Studente>();
+	
+	private Scanner input;
+	
+	public StudenteController(Scanner input) {
+		this.input = input;
+	}
+	
 	
 	public void insert() {
 		
 		Studente model = new Studente();
-		StudenteView view = new StudenteView();
+		StudenteView view = new StudenteView(input);
 		view.insert(model);
 		
-		dati.add(model);
+		StudenteCRUD.getInstance().insert(model);
 		
 		
 		view.print(model);
@@ -29,8 +37,9 @@ public class StudenteController {
 	}
 	public void findAll() {
 		
-		StudenteView view = new StudenteView();
-		view.findAll(dati);
+		StudenteView view = new StudenteView(input);
+		
+		view.findAll(StudenteCRUD.getInstance().findAll());
 		
 		
 	}
@@ -41,27 +50,23 @@ public class StudenteController {
 		
 		
 		
-		StudenteView view = new StudenteView();
+		StudenteView view = new StudenteView(input);
 		Studente model = new Studente();
 		view.findByMatricola(model);
 		
 		String matricola = model.getMatricola();
 		
-		Studente studenteTrovato = null;
-		for(Studente s : dati) {
-			if(s.getMatricola().equals(matricola)) {
-				studenteTrovato = s;
-				break;
-			}
-		}
 		
 		
-		if(studenteTrovato!=null) {
-		
+		Studente studenteTrovato;
+		try {
+			studenteTrovato = StudenteCRUD.getInstance().findByMatricola(matricola);
 			view.print(studenteTrovato);
-		} else {
+		} catch (NotFoundError e) {
 			view.printNotFound();
 		}
+		
+		
 		
 	}
  public void findByMatricola2() {
@@ -69,26 +74,23 @@ public class StudenteController {
 		
 		
 		
-		StudenteView view = new StudenteView();
+		StudenteView view = new StudenteView(input);
 		String matricola = view.findByMatricola2();
 		
 		
 		
-		Studente studenteTrovato = null;
-		for(Studente s : dati) {
-			if(s.getMatricola().equals(matricola)) {
-				studenteTrovato = s;
-				break;
-			}
-		}
-		
-		
-		if(studenteTrovato!=null) {
-		
+		Studente studenteTrovato;
+		try {
+			studenteTrovato = StudenteCRUD.getInstance().findByMatricola(matricola);
+				
 			view.print(studenteTrovato);
-		} else {
+			
+			
+		} catch (NotFoundError e) {
 			view.printNotFound();
 		}
+		
+		
 		
 	}
 
